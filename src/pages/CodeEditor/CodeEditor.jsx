@@ -18,21 +18,36 @@ function CodeEditor() {
 
   const [output, setOutput] = useState("You can write your code here");
   const [hint, setHint] = useState("");
-
+  const [codeGenerated, setCodeGenerated] = useState(false);
   const { question, setQuestion } = useContext(QuestionContext);
-
+  const [saved, setSaved] = useState(true)
   useEffect(() => {
     function giveRandomQuestion() {
       if (question) {
         generateRandom(question, setProblem, setHintButton);
         generateHint(question, setHint);
-        setQuestion(null);
       }
     }
 
     giveRandomQuestion();
   }, [question]);
 
+
+  const handelSaveCode = async () => {
+    try {
+      const save = await addCodeToDB(problem, hint, output);
+
+      if(save){
+        setSaved(true)
+      }
+      else{
+        setSaved(false)
+        alert("Error in saving code")
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
   const handleHintForm = (e) => {
     e.preventDefault();
     if (problem) {
@@ -47,10 +62,11 @@ function CodeEditor() {
     if (!hintButton) {
       const output = await generateCode(problem, language, setOutput);
       setOutput(output);
-      addCodeToDB(question, hint, output);
+      setCodeGenerated(true);
       setGenerateCodeButton(false);
     } else {
       setGenerateCodeButton(true);
+      setCodeGenerated(false);
       return null;
     }
   };
@@ -148,7 +164,29 @@ function CodeEditor() {
           </div>
         </div>
       </div>
-
+      {codeGenerated
+      ?
+      <div className="flex justify-end p-4">
+        {saved
+        ?
+        <button 
+          className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition-all duration-300"
+          onClick={handelSaveCode}
+        >
+          💾 Save Code
+        </button>
+        :
+        <button 
+          className="bg-green-500 hover:bg-green-300 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition-all duration-300"
+          disabled
+        >
+          Saved
+        </button>
+        }
+      </div>
+      :
+      null
+      }
       <div className="w-full h-1 bg-gray-300/60 shadow-sm my-8"></div>
     </div>
   );

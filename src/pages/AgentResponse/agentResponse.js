@@ -7,7 +7,7 @@ export const generateHint = async (problem, setHint) => {
         question: problem,
       });
       setHint(res.data.response);
-      console.log(res.data.response);
+      // console.log(res.data.response);
     }
   } catch (error) {
     console.log(error);
@@ -59,7 +59,9 @@ export const addCodeToDB = async (question, hint, output) => {
       },
       { withCredentials: true }
     );
+    if(res.data) return res.data
   } catch (error) {
     console.log(error);
+    throw error
   }
 };

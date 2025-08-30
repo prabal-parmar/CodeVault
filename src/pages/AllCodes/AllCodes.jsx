@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useCodeStore } from "../../hooks/store";
 import axios from "axios";
 
 function AllCodes() {
-  const codes = useCodeStore((i) => i.codes);
-  const setCodes = useCodeStore((i) => i.setCodes);
+  const [codes, setCodes] = useState([])
 
   useEffect(() => {
     const fetchAllCodes = async () => {
@@ -43,7 +41,7 @@ function AllCodes() {
               marginBottom: "15px",
             }}
           >
-            {value.question}
+            {value.question.toUpperCase()}
           </p>
 
           {value.hint && (

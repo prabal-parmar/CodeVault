@@ -20,7 +20,7 @@ function CodeEditor() {
   const [hint, setHint] = useState("");
   const [codeGenerated, setCodeGenerated] = useState(false);
   const { question, setQuestion } = useContext(QuestionContext);
-  const [saved, setSaved] = useState(true)
+  const [saved, setSaved] = useState(true);
   useEffect(() => {
     function giveRandomQuestion() {
       if (question) {
@@ -32,22 +32,20 @@ function CodeEditor() {
     giveRandomQuestion();
   }, [question]);
 
-
   const handelSaveCode = async () => {
     try {
       const save = await addCodeToDB(problem, hint, output);
 
-      if(save){
-        setSaved(true)
-      }
-      else{
-        setSaved(false)
-        alert("Error in saving code")
+      if (save) {
+        setSaved(false);
+      } else {
+        setSaved(true);
+        alert("Error in saving code");
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
   const handleHintForm = (e) => {
     e.preventDefault();
     if (problem) {
@@ -77,8 +75,8 @@ function CodeEditor() {
         <div className="lg:w-1/2 flex flex-col items-start justify-start bg-gray-800 p-6 rounded-xl shadow-xl h-full overflow-y-auto pb-20">
           {hintButton ? (
             <form className="w-full" onSubmit={handleHintForm}>
-              <label className="text-lg font-semibold mb-2 block text-gray-200">
-                Ask Your Question
+              <label className="text-lg font-semibold mb-2 block text-gray-200" for="question">
+                Describe your Question
               </label>
               <textarea
                 className="w-full h-40 p-3 border border-gray-600 rounded-lg resize-none
@@ -86,7 +84,7 @@ function CodeEditor() {
                 placeholder-gray-400 bg-gray-700 text-white"
                 name="question"
                 id="question"
-                placeholder="Type your question here..."
+                placeholder="Try to describe your problem in as much detail as possible..."
                 value={problem}
                 onChange={(e) => setProblem(e.target.value)}
               ></textarea>
@@ -164,29 +162,25 @@ function CodeEditor() {
           </div>
         </div>
       </div>
-      {codeGenerated
-      ?
-      <div className="flex justify-end p-4">
-        {saved
-        ?
-        <button 
-          className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition-all duration-300"
-          onClick={handelSaveCode}
-        >
-          💾 Save Code
-        </button>
-        :
-        <button 
-          className="bg-green-500 hover:bg-green-300 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition-all duration-300"
-          disabled
-        >
-          Saved
-        </button>
-        }
-      </div>
-      :
-      null
-      }
+      {codeGenerated ? (
+        <div className="flex justify-end p-4">
+          {saved ? (
+            <button
+              className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition-all duration-300"
+              onClick={handelSaveCode}
+            >
+              💾 Save Code
+            </button>
+          ) : (
+            <button
+              className="bg-gray-400 text-gray-200 font-semibold py-2 px-4 rounded-lg shadow-inner cursor-not-allowed transition-all duration-300"
+              disabled
+            >
+              💾 Saved
+            </button>
+          )}
+        </div>
+      ) : null}
       <div className="w-full h-1 bg-gray-300/60 shadow-sm my-8"></div>
     </div>
   );

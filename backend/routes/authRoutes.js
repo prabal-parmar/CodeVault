@@ -24,6 +24,7 @@ router.post("/register", async (req, res) => {
       email,
       name,
       password: hashedPassword,
+      avatar: "coder0"
     });
 
     await newCoder.save();
@@ -56,7 +57,7 @@ router.post("/login", async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: coder._id, username: coder.username },
+      { id: coder._id, username: coder.username, name: coder.name, email: coder.email, avatar: coder.avatar},
       JWT_SECRET,
       { expiresIn: "1d" }
     );
@@ -69,7 +70,7 @@ router.post("/login", async (req, res) => {
 
     res.json({
       token,
-      coder: { username: coder.username, email: coder.email },
+      coder: { username: coder.username, email: coder.email, name: coder.name},
     });
   } catch (err) {
     res.status(500).json({ message: "Error Occured" });

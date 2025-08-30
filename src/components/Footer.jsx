@@ -29,7 +29,7 @@ export default function Footer() {
             <a href="#" className="hover:text-white transition">
               Dashboard
             </a>
-            <a href="#" className="hover:text-white transition">
+            <a href="/allcodes" className="hover:text-white transition">
               Your Codes
             </a>
           </div>

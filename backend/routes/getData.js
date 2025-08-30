@@ -56,4 +56,23 @@ router.post("/addCode", authMiddleware, async (req, res) => {
   }
 });
 
+router.post('/update-avatar', authMiddleware, async (req, res) => {
+  try {
+    const coderId = req.coder.id
+    const {avatar} = req.body
+
+    const coder = await Coder.findByIdAndUpdate(coderId, 
+      { $set: { avatar: avatar } },
+      { new: true }
+    )
+
+    if(!coder){
+      return res.status(404).json({error: "Coder not found"})
+    }
+    res.status(200).json({ message: "Avatar updated", coder });
+  } catch (err) {
+    res.status(500).json({error: err.message})
+  }
+})
+
 module.exports = router

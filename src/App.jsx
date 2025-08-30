@@ -7,6 +7,7 @@ import {
   BrowserRouter as Router,
   Route,
   Routes,
+  Navigate
 } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Profile from "./pages/Profile/Profile";
@@ -14,6 +15,8 @@ import Login from "./auth/Login";
 import Register from "./auth/Register";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import AllCodes from "./pages/AllCodes/AllCodes";
+
+
 
 function App() {
   return (
@@ -30,7 +33,7 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path='/allcodes' element={<AllCodes/>} />
             </Route>
-            <Route path="*" element={<Home />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </div>
         <Footer />

@@ -20,10 +20,10 @@ export default function Footer() {
           </div>
 
           <div className="flex space-x-6 mt-4 sm:mt-0">
-            <a href="#" className="hover:text-white transition">
+            <a href="/" className="hover:text-white transition">
               Home
             </a>
-            <a href="#" className="hover:text-white transition">
+            <a href="/generate" className="hover:text-white transition">
               Generate
             </a>
             <a href="#" className="hover:text-white transition">
@@ -36,7 +36,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-700 mt-6 pt-6 flex flex-col sm:flex-row items-center justify-between text-sm text-gray-500">
-          <p>© {new Date().getFullYear()} Code Storage</p>
+          <p>© {new Date().getFullYear()} CodeVault</p>
           <div className="flex space-x-4 mt-2 sm:mt-0">
             <a href="#" className="hover:text-white transition">
               Privacy Policy

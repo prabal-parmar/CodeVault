@@ -20,12 +20,14 @@ function Register() {
     try {
       const response = await register(username, email, password, name);
 
-      console.log("Coder Registered:", response.data);
+      // console.log("Coder Registered:", response.data);
 
       setName("");
       setUsername("");
       setEmail("");
       setPassword("");
+      navigate("/login");
+
     } catch (error) {
       console.log("Error occurred:", error);
     } finally {

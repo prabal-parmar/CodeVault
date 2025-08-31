@@ -125,22 +125,22 @@ export default function Header() {
               </div>
             </div>
           </div>
-
+          <button
+            type="button"
+            onClick={() => setDarkMode(!darkMode)}
+            className="relative rounded-full p-2 transition-colors duration-300 
+              text-gray-700 hover:text-yellow-500 dark:text-gray-300 dark:hover:text-indigo-400
+              focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 cursor-pointer"
+          >
+            {darkMode ? (
+              <MoonIcon className="h-6 w-6 animate-pulse text-indigo-400 hover:scale-110 transition" />
+            ) : (
+              <SunIcon className="h-6 w-6 animate-pulse text-yellow-500 hover:scale-110 transition" />
+            )}
+          </button>
           {coder && (
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-              <button
-                type="button"
-                onClick={() => setDarkMode(!darkMode)}
-                className="relative rounded-full p-2 transition-colors duration-300 
-                  text-gray-700 hover:text-yellow-500 dark:text-gray-300 dark:hover:text-indigo-400
-                  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                {darkMode ? (
-                  <MoonIcon className="h-6 w-6 animate-pulse text-indigo-400 hover:scale-110 transition" />
-                ) : (
-                  <SunIcon className="h-6 w-6 animate-pulse text-yellow-500 hover:scale-110 transition" />
-                )}
-              </button>
+              
 
               <Menu as="div" className="relative ml-3">
                 <MenuButton className="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">

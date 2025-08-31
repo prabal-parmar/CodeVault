@@ -42,9 +42,11 @@ function Login() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8 space-y-6">
-        <h2 className="text-2xl font-bold text-center text-gray-800">Login</h2>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 px-4 transition-colors duration-500">
+      <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 space-y-6 transition-colors duration-500">
+        <h2 className="text-2xl font-bold text-center text-gray-800 dark:text-gray-100 transition-colors duration-500">
+          Login
+        </h2>
 
         <form className="space-y-4" onSubmit={handelSubmit}>
           <div>
@@ -55,7 +57,9 @@ function Login() {
               onChange={(e) => setUsername(e.target.value)}
               required
               disabled={loading}
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600
+                     bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
+                     focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-500"
             />
           </div>
 
@@ -67,22 +71,28 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
               required
               disabled={loading}
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600
+                     bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
+                     focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-500"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition duration-200 disabled:bg-indigo-300"
+            className="w-full py-3 rounded-lg bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600
+                   text-white font-semibold transition duration-200 disabled:bg-indigo-300 dark:disabled:bg-indigo-400 transition-colors duration-500"
           >
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
-        <p className="text-sm text-center text-gray-500">
+        <p className="text-sm text-center text-gray-500 dark:text-gray-400 transition-colors duration-500">
           Don't have an account?{" "}
-          <a href="/register" className="text-indigo-600 hover:underline">
+          <a
+            href="/register"
+            className="text-indigo-600 dark:text-indigo-400 hover:underline transition-colors duration-500"
+          >
             Register
           </a>
         </p>

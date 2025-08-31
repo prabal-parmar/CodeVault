@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-llm = ChatGroq(temperature=0, model="llama3-8b-8192")
+llm = ChatGroq(temperature=0, model="llama-3.3-70b-versatile")
 
 system_prompt = SystemMessagePromptTemplate.from_template(
     """

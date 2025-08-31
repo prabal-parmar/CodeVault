@@ -7,7 +7,14 @@ import {
   MenuItem,
   MenuItems,
 } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+
+import {
+  Bars3Icon,
+  XMarkIcon,
+  SunIcon,
+  MoonIcon,
+} from "@heroicons/react/24/outline";
+
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { CoderContext } from "../context/CoderProvider";
@@ -20,23 +27,16 @@ import {
   coder5,
   coder6,
 } from "../assets/avatars";
-import { fetchAvatar } from "../pages/AgentResponse/agentResponse";
 
-const allAvatars = {
-  coder0: coder0,
-  coder1: coder1,
-  coder2: coder2,
-  coder3: coder3,
-  coder4: coder4,
-  coder5: coder5,
-  coder6: coder6,
-};
+import { fetchAvatar } from "../pages/AgentResponse/agentResponse";
+import { DarkModeContext } from "../context/DarkModeProvider";
+
+const allAvatars = { coder0, coder1, coder2, coder3, coder4, coder5, coder6 };
 
 const navigation = [
   { name: "Home", href: "/", current: false },
   { name: "Generate", href: "/generate", current: false },
-  { name: "Dashboard", href: "#", current: false },
-  { name: "Your Codes", href: "/allcodes", current: false },
+  { name: "My Codes", href: "/allcodes", current: false },
 ];
 
 function classNames(...classes) {
@@ -45,34 +45,43 @@ function classNames(...classes) {
 
 export default function Header() {
   const { coder, logout } = useContext(CoderContext);
+  const { darkMode, setDarkMode } = useContext(DarkModeContext);
   const navigate = useNavigate();
   const [avatar, setAvatar] = useState(coder0);
+
   useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const data = await fetchAvatar()
-          // console.log(avatar)
-          setAvatar(data);
-        } catch (error) {
-          console.log(error);
-          throw error
-        }
-      };
-      fetchData();
-    }, []);
+    const fetchData = async () => {
+      try {
+        const data = await fetchAvatar();
+        setAvatar(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <Disclosure
       as="nav"
-      className="z-50 sticky top-0 relative bg-gradient-to-r from-gray-950 via-gray-900 to-gray-950
- after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-white/10"
+      className="
+        z-50 sticky top-0 relative
+        bg-gradient-to-r from-gray-100 via-gray-50 to-gray-100
+        dark:from-gray-950 dark:via-gray-900 dark:to-gray-950
+        after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 
+        after:h-px after:bg-black/10 dark:after:bg-white/10
+        transition-colors duration-400
+      "
     >
       <div className="mx-auto max-w-7xl">
         <div className="relative flex h-16 items-center justify-between">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-            <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-white/5 hover:text-white focus:outline-2 focus:-outline-offset-1 focus:outline-indigo-500">
-              <span className="absolute -inset-0.5" />
-              <span className="sr-only">Open main menu</span>
+            <DisclosureButton
+              className="group relative inline-flex items-center justify-center rounded-md p-2 
+              text-gray-700 hover:bg-gray-200 hover:text-gray-900 
+              dark:text-gray-300 dark:hover:bg-white/10 dark:hover:text-white
+              focus:outline-2 focus:-outline-offset-1 focus:outline-indigo-500"
+            >
               <Bars3Icon
                 aria-hidden="true"
                 className="block size-6 group-data-open:hidden"
@@ -83,6 +92,7 @@ export default function Header() {
               />
             </DisclosureButton>
           </div>
+
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex items-center h-16 w-16 overflow-hidden">
               <img
@@ -93,57 +103,63 @@ export default function Header() {
               />
             </div>
 
-            <div className="hidden sm:ml-6 sm:flex sm:items-center">
-              <div className="flex space-x-4">
-                {navigation.map((item) => (
-                  <Link
-                    key={item.name}
-                    to={item.href}
-                    aria-current={item.current ? "page" : undefined}
-                    className={classNames(
-                      item.current
-                        ? "bg-gray-950/50 text-white"
-                        : "text-gray-300 hover:bg-white/5 hover:text-white",
-                      "rounded-md px-3 py-2 text-sm font-medium"
-                    )}
-                  >
-                    {item.name}
-                  </Link>
-                ))}
+            <div className="flex flex-1 items-center justify-center sm:justify-center">
+              <div className="hidden sm:flex sm:items-center">
+                <div className="flex space-x-4">
+                  {navigation.map((item) => (
+                    <Link
+                      key={item.name}
+                      to={item.href}
+                      aria-current={item.current ? "page" : undefined}
+                      className={classNames(
+                        item.current
+                          ? "bg-gray-200 text-gray-900 dark:bg-gray-800 dark:text-white"
+                          : "text-gray-700 hover:bg-gray-200 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-white/10 dark:hover:text-white",
+                        "rounded-md px-3 py-2 text-sm font-medium transition-colors"
+                      )}
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
 
-          {coder ? (
+          {coder && (
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               <button
                 type="button"
-                className="relative rounded-full p-1 text-gray-400 hover:text-white focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500"
+                onClick={() => setDarkMode(!darkMode)}
+                className="relative rounded-full p-2 transition-colors duration-300 
+                  text-gray-700 hover:text-yellow-500 dark:text-gray-300 dark:hover:text-indigo-400
+                  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
-                <span className="absolute -inset-1.5" />
-                <span className="sr-only">View notifications</span>
-                <BellIcon aria-hidden="true" className="size-6" />
+                {darkMode ? (
+                  <MoonIcon className="h-6 w-6 animate-pulse text-indigo-400 hover:scale-110 transition" />
+                ) : (
+                  <SunIcon className="h-6 w-6 animate-pulse text-yellow-500 hover:scale-110 transition" />
+                )}
               </button>
 
               <Menu as="div" className="relative ml-3">
                 <MenuButton className="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
-                  <span className="absolute -inset-1.5" />
-                  <span className="sr-only">Open user menu</span>
                   <img
                     alt=""
                     src={allAvatars[avatar]}
-                    className="size-8 rounded-full bg-gray-800 outline -outline-offset-1 outline-white/10"
+                    className="size-8 rounded-full bg-gray-300 dark:bg-gray-800 outline -outline-offset-1 outline-white/10"
                   />
                 </MenuButton>
-
                 <MenuItems
                   transition
-                  className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-800 py-1 outline -outline-offset-1 outline-white/10 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                  className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md 
+                    bg-gray-100 dark:bg-gray-800 py-1 shadow-lg ring-1 ring-black/5 dark:ring-white/10 
+                    transition data-closed:scale-95 data-closed:opacity-0"
                 >
                   <MenuItem>
                     <a
                       href="/profile"
-                      className="block px-4 py-2 text-sm text-gray-300 data-focus:bg-white/5 data-focus:outline-hidden"
+                      className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-white/10"
                     >
                       Your profile
                     </a>
@@ -151,24 +167,23 @@ export default function Header() {
                   <MenuItem>
                     <a
                       href="/allcodes"
-                      className="block px-4 py-2 text-sm text-gray-300 data-focus:bg-white/5 data-focus:outline-hidden"
+                      className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-white/10"
                     >
                       Your Codes
                     </a>
                   </MenuItem>
                   <MenuItem>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-300 data-focus:bg-white/5 data-focus:outline-hidden"
+                    <button
                       onClick={logout}
+                      className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-white/10"
                     >
                       Sign out
-                    </a>
+                    </button>
                   </MenuItem>
                 </MenuItems>
               </Menu>
             </div>
-          ) : null}
+          )}
         </div>
       </div>
 
@@ -182,9 +197,9 @@ export default function Header() {
               aria-current={item.current ? "page" : undefined}
               className={classNames(
                 item.current
-                  ? "bg-gray-950/50 text-white"
-                  : "text-gray-300 hover:bg-white/5 hover:text-white",
-                "block rounded-md px-3 py-2 text-base font-medium"
+                  ? "bg-gray-200 text-gray-900 dark:bg-gray-800 dark:text-white"
+                  : "text-gray-700 hover:bg-gray-200 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-white/10 dark:hover:text-white",
+                "block rounded-md px-3 py-2 text-base font-medium transition-colors"
               )}
             >
               {item.name}

@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { CoderContext } from "../context/CoderProvider";
+import { login } from "../pages/AgentResponse/agentResponse";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -16,11 +17,7 @@ function Login() {
     setLoading(true);
 
     try {
-      const res = await axios.post(
-        "http://localhost:3000/auth/login",
-        { username, password },
-        { withCredentials: true }
-      );
+      const res = await login(username, password);
 
       localStorage.setItem("token", res.data.token);
 

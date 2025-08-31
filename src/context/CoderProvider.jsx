@@ -1,5 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 import axios from "axios";
+import { logoutCoder } from "../pages/AgentResponse/agentResponse";
 
 export const CoderContext = createContext();
 
@@ -8,16 +9,7 @@ function CoderProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   const logout = async () => {
-    try {
-      await axios.post("http://localhost:3000/auth/logout", {
-        withCredentials: true,
-      });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      localStorage.removeItem("token");
-      setCoder(null);
-    }
+    logoutCoder(setCoder)
   };
 
   useEffect(() => {

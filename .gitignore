@@ -23,7 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 .env
-*.json
 
 __pycache__
 *.txt
+venv

@@ -75,4 +75,19 @@ router.post('/update-avatar', authMiddleware, async (req, res) => {
   }
 })
 
+router.get('/avatar', authMiddleware, async (req, res) => {
+  try {
+    const coderId = req.coder.id
+
+    const coder = await Coder.findById(coderId)
+
+    if(!coder){
+      return res.status(404).json({error: "Coder not found"})
+    }
+    res.status(200).json({ message: "Avatar sent", avatar: coder.avatar});
+  } catch (err) {
+    res.status(500).json({error: err.message})
+  }
+})
+
 module.exports = router

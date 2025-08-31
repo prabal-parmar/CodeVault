@@ -70,7 +70,7 @@ router.post("/login", async (req, res) => {
 
     res.json({
       token,
-      coder: { username: coder.username, email: coder.email, name: coder.name},
+      coder: { username: coder.username, email: coder.email, name: coder.name, avatar: coder.avatar},
     });
   } catch (err) {
     res.status(500).json({ message: "Error Occured" });

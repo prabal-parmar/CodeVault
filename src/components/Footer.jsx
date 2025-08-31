@@ -1,22 +1,19 @@
 import { useNavigate } from "react-router-dom";
 
-
 export default function Footer() {
+  const navigate = useNavigate();
 
-    const navigate = useNavigate()
-    
   return (
     <footer className="bg-gradient-to-r from-gray-950 via-gray-900 to-gray-950 text-gray-400 mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col sm:flex-row items-center justify-between">
           <div className="flex items-center space-x-2">
-            <h1
-            className="h-8 w-auto text-2xl font-bold bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 
-                        bg-clip-text text-transparent mt-1 -rotate-0 cursor-pointer"
-            >
-            {`</store>`}
-            </h1>
-
+            <img
+              src="logo.png"
+              alt="logo"
+              className="h-25 w-auto mt-1 cursor-pointer"
+              onClick={() => navigate("/", { replace: true })}
+            />
           </div>
 
           <div className="flex space-x-6 mt-4 sm:mt-0">

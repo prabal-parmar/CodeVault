@@ -7,6 +7,7 @@ import {
   generateRandom,
   addCodeToDB,
 } from "../AgentResponse/agentResponse";
+import { DarkModeContext } from "../../context/DarkModeProvider";
 
 const allLanguages = ["python", "cpp", "c", "java", "javascript"];
 
@@ -21,6 +22,8 @@ function CodeEditor() {
   const [codeGenerated, setCodeGenerated] = useState(false);
   const { question, setQuestion } = useContext(QuestionContext);
   const [saved, setSaved] = useState(true);
+  const { darkMode } = useContext(DarkModeContext);
+
   useEffect(() => {
     function giveRandomQuestion() {
       if (question) {
@@ -72,16 +75,25 @@ function CodeEditor() {
   return (
     <div>
       <div className="flex flex-col lg:flex-row gap-6 h-[80vh]">
-        <div className="lg:w-1/2 flex flex-col items-start justify-start bg-gray-800 p-6 rounded-xl shadow-xl h-full overflow-y-auto pb-20">
+        <div
+          className="lg:w-1/2 flex flex-col items-start justify-start 
+                    dark:bg-gray-800 bg-gray-300 p-6 rounded-xl shadow-xl h-full overflow-y-auto pb-20"
+        >
           {hintButton ? (
             <form className="w-full" onSubmit={handleHintForm}>
-              <label className="text-lg font-semibold mb-2 block text-gray-200" for="question">
+              <label
+                className="text-lg font-semibold mb-2 block dark:text-gray-100 text-gray-900"
+                htmlFor="question"
+              >
                 Describe your Question
               </label>
               <textarea
-                className="w-full h-40 p-3 border border-gray-600 rounded-lg resize-none
-                focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-blue-500
-                placeholder-gray-400 bg-gray-700 text-white"
+                className="w-full h-40 p-3 border rounded-lg resize-none
+                       focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-blue-500
+                       dark:border-gray-700 border-gray-400
+                       dark:bg-gray-700 bg-white
+                       dark:text-gray-200 text-gray-900
+                       placeholder-gray-400"
                 name="question"
                 id="question"
                 placeholder="Try to describe your problem in as much detail as possible..."
@@ -90,9 +102,9 @@ function CodeEditor() {
               ></textarea>
               <button
                 className="w-full mt-4 bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 
-                text-white py-2 rounded-lg shadow-lg
-                hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500 
-                transition-all duration-300 ease-in-out"
+                       text-white py-2 rounded-lg shadow-lg
+                       hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500 
+                       transition-all duration-300 ease-in-out"
                 type="submit"
               >
                 Ask for Hint 💡
@@ -101,27 +113,31 @@ function CodeEditor() {
           ) : (
             <div className="w-full flex flex-col p-4">
               <div className="mb-8">
-                <h2 className="text-xl font-semibold text-gray-200 mb-2">
+                <h2 className="text-xl font-semibold dark:text-gray-100 text-gray-900 mb-2">
                   Problem
                 </h2>
-                <p className="text-4xl font-extrabold text-white">
+                <p className="text-4xl font-extrabold dark:text-white text-gray-800">
                   {problem.toUpperCase()}
                 </p>
               </div>
 
               <div className="mb-6">
-                <h2 className="text-xl font-semibold text-gray-200 mb-2">
+                <h2 className="text-xl font-semibold dark:text-gray-100 text-gray-900 mb-2">
                   Hint
                 </h2>
-                <div className="bg-gray-800 text-gray-100 p-2 rounded-lg shadow-md">
+                <div
+                  className="p-3 rounded-lg shadow-md border
+                            dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200
+                            bg-white border-gray-300 text-gray-900"
+                >
                   <p className="text-lg">{hint}</p>
                 </div>
               </div>
               <button
                 className="w-full bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 
-               text-white py-2 rounded-lg shadow-lg mt-4
-               hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500 
-               transition-all duration-300 ease-in-out"
+                       text-white py-2 rounded-lg shadow-lg mt-4
+                       hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500 
+                       transition-all duration-300 ease-in-out"
                 onClick={handelGenerate}
               >
                 {generateCodeButton ? "✨ Generate Code" : "✨ Generate Again"}
@@ -129,22 +145,26 @@ function CodeEditor() {
             </div>
           )}
         </div>
-        <div className="lg:w-1/2 flex flex-col bg-gray-700 rounded-xl shadow-xl overflow-hidden h-full">
-          <div className="flex items-center justify-between bg-gray-600 px-4 py-2 border-b border-gray-500">
-            <h2 className="text-lg font-semibold text-white">
-              Write or Edit your code
-            </h2>
+
+        <div
+          className="lg:w-1/2 bg-gray-300 flex flex-col overflow-hidden h-full 
+                    dark:bg-gray-950 bg-gray-100 rounded-xl shadow-xl"
+        >
+          <div
+            className="flex items-center justify-between px-4 py-2 border-b bg-gray-300
+                      dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300
+                      border-gray-300 text-gray-900"
+          >
+            <h2 className="text-lg font-semibold">Write or Edit your code</h2>
             <select
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
-              className="bg-gray-800 text-white border border-gray-500 rounded px-2 py-1"
+              className="rounded px-2 py-1
+                     dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200
+                     bg-white border-gray-300 text-gray-900"
             >
               {allLanguages.map((element, index) => (
-                <option
-                  key={index}
-                  value={element}
-                  onChange={() => setLanguage(language)}
-                >
+                <option key={index} value={element}>
                   {element}
                 </option>
               ))}
@@ -154,7 +174,7 @@ function CodeEditor() {
             <Editor
               height="100%"
               language={language}
-              theme="vs-dark"
+              theme={darkMode ? "vs-dark" : "vs-light"}
               value={output}
               defaultValue=""
               onChange={(e) => setOutput(e.target.value)}
@@ -162,7 +182,8 @@ function CodeEditor() {
           </div>
         </div>
       </div>
-      {codeGenerated ? (
+
+      {codeGenerated && (
         <div className="flex justify-end p-4">
           {saved ? (
             <button
@@ -180,7 +201,8 @@ function CodeEditor() {
             </button>
           )}
         </div>
-      ) : null}
+      )}
+
       <div className="w-full h-1 bg-gray-300/60 shadow-sm my-8"></div>
     </div>
   );

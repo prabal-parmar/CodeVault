@@ -8,9 +8,29 @@ import {
   MenuItems,
 } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { CoderContext } from "../context/CoderProvider";
+import {
+  coder0,
+  coder1,
+  coder2,
+  coder3,
+  coder4,
+  coder5,
+  coder6,
+} from "../assets/avatars";
+import { fetchAvatar } from "../pages/AgentResponse/agentResponse";
+
+const allAvatars = {
+  coder0: coder0,
+  coder1: coder1,
+  coder2: coder2,
+  coder3: coder3,
+  coder4: coder4,
+  coder5: coder5,
+  coder6: coder6,
+};
 
 const navigation = [
   { name: "Home", href: "/", current: false },
@@ -24,8 +44,22 @@ function classNames(...classes) {
 }
 
 export default function Header() {
-  const {coder, logout} = useContext(CoderContext)
+  const { coder, logout } = useContext(CoderContext);
   const navigate = useNavigate();
+  const [avatar, setAvatar] = useState(coder0);
+  useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const data = await fetchAvatar()
+          // console.log(avatar)
+          setAvatar(data);
+        } catch (error) {
+          console.log(error);
+          throw error
+        }
+      };
+      fetchData();
+    }, []);
 
   return (
     <Disclosure
@@ -36,7 +70,6 @@ export default function Header() {
       <div className="mx-auto max-w-7xl">
         <div className="relative flex h-16 items-center justify-between">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-            
             <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-white/5 hover:text-white focus:outline-2 focus:-outline-offset-1 focus:outline-indigo-500">
               <span className="absolute -inset-0.5" />
               <span className="sr-only">Open main menu</span>
@@ -51,16 +84,16 @@ export default function Header() {
             </DisclosureButton>
           </div>
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-            <div className="flex shrink-0 items-center">
-              <h1
-                className="h-8 w-auto text-1xl font-bold bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 
-                            bg-clip-text text-transparent mt-1 -rotate-15 cursor-pointer"
-                onClick={() => navigate("/", {replace: true})}
-              >
-                {`</store>`}
-              </h1>
+            <div className="flex items-center h-16 w-16 overflow-hidden">
+              <img
+                src="logo.png"
+                alt="logo"
+                className="h-full w-auto -rotate-12 cursor-pointer object-cover"
+                onClick={() => navigate("/", { replace: true })}
+              />
             </div>
-            <div className="hidden sm:ml-6 sm:block">
+
+            <div className="hidden sm:ml-6 sm:flex sm:items-center">
               <div className="flex space-x-4">
                 {navigation.map((item) => (
                   <Link
@@ -80,65 +113,62 @@ export default function Header() {
               </div>
             </div>
           </div>
-          {coder 
-          ? 
-          <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            <button
-              type="button"
-              className="relative rounded-full p-1 text-gray-400 hover:text-white focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500"
-            >
-              <span className="absolute -inset-1.5" />
-              <span className="sr-only">View notifications</span>
-              <BellIcon aria-hidden="true" className="size-6" />
-            </button>
 
-            
-            <Menu as="div" className="relative ml-3">
-              <MenuButton className="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
-                <span className="absolute -inset-1.5" />
-                <span className="sr-only">Open user menu</span>
-                <img
-                  alt=""
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                  className="size-8 rounded-full bg-gray-800 outline -outline-offset-1 outline-white/10"
-                />
-              </MenuButton>
-
-              <MenuItems
-                transition
-                className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-800 py-1 outline -outline-offset-1 outline-white/10 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+          {coder ? (
+            <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+              <button
+                type="button"
+                className="relative rounded-full p-1 text-gray-400 hover:text-white focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500"
               >
-                <MenuItem>
-                  <a
-                    href="/profile"
-                    className="block px-4 py-2 text-sm text-gray-300 data-focus:bg-white/5 data-focus:outline-hidden"
-                  >
-                    Your profile
-                  </a>
-                </MenuItem>
-                <MenuItem>
-                  <a
-                    href="/allcodes"
-                    className="block px-4 py-2 text-sm text-gray-300 data-focus:bg-white/5 data-focus:outline-hidden"
-                  >
-                    Your Codes
-                  </a>
-                </MenuItem>
-                <MenuItem>
-                  <a
-                  href="#"
-                    className="block px-4 py-2 text-sm text-gray-300 data-focus:bg-white/5 data-focus:outline-hidden"
-                    onClick={logout}
-                  >
-                    Sign out
-                  </a>
-                </MenuItem>
-              </MenuItems>
-            </Menu>
-          </div>
-          :
-          null
-          }
+                <span className="absolute -inset-1.5" />
+                <span className="sr-only">View notifications</span>
+                <BellIcon aria-hidden="true" className="size-6" />
+              </button>
+
+              <Menu as="div" className="relative ml-3">
+                <MenuButton className="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+                  <span className="absolute -inset-1.5" />
+                  <span className="sr-only">Open user menu</span>
+                  <img
+                    alt=""
+                    src={allAvatars[avatar]}
+                    className="size-8 rounded-full bg-gray-800 outline -outline-offset-1 outline-white/10"
+                  />
+                </MenuButton>
+
+                <MenuItems
+                  transition
+                  className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-800 py-1 outline -outline-offset-1 outline-white/10 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                >
+                  <MenuItem>
+                    <a
+                      href="/profile"
+                      className="block px-4 py-2 text-sm text-gray-300 data-focus:bg-white/5 data-focus:outline-hidden"
+                    >
+                      Your profile
+                    </a>
+                  </MenuItem>
+                  <MenuItem>
+                    <a
+                      href="/allcodes"
+                      className="block px-4 py-2 text-sm text-gray-300 data-focus:bg-white/5 data-focus:outline-hidden"
+                    >
+                      Your Codes
+                    </a>
+                  </MenuItem>
+                  <MenuItem>
+                    <a
+                      href="#"
+                      className="block px-4 py-2 text-sm text-gray-300 data-focus:bg-white/5 data-focus:outline-hidden"
+                      onClick={logout}
+                    >
+                      Sign out
+                    </a>
+                  </MenuItem>
+                </MenuItems>
+              </Menu>
+            </div>
+          ) : null}
         </div>
       </div>
 

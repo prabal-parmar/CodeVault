@@ -9,7 +9,7 @@ import {
   coder6,
 } from "../../assets/avatars";
 import { CoderContext } from "../../context/CoderProvider";
-import axios from "axios";
+import { fetchAllCodes, fetchAvatar, updateAvatar } from "../AgentResponse/agentResponse";
 
 const avatarOptions = {
   coder0: coder0,
@@ -22,47 +22,37 @@ const avatarOptions = {
 };
 
 export default function Profile() {
-  const { coder, setCoder, loading } = useContext(CoderContext);
-  const [selectedAvatar, setSelectedAvatar] = useState(coder?.avatar || "coder0");
+  const { coder, loading } = useContext(CoderContext);
+  const [selectedAvatar, setSelectedAvatar] = useState("");
   const [showOptions, setShowOptions] = useState(false);
   const [numOfCodes, setNumOfCodes] = useState(0);
 
   if (loading) {
     return <div>Loading...</div>;
   }
+
   useEffect(() => {
-    const fetchAllCodes = async () => {
+    const fetchData = async () => {
       try {
-        console.log("hatttttt:", coder?.avatar)
-        const res = await axios.get("http://localhost:3000/get/allcodes", {
-          withCredentials: true,
-        });
-        setNumOfCodes(res.data.codes.length);
+        const codes = fetchAllCodes()
+
+        const avatar = await fetchAvatar()
+        // console.log(avatar)
+        setSelectedAvatar(avatar);
+        setNumOfCodes(codes);
       } catch (error) {
         console.log(error);
         throw error
       }
     };
-    fetchAllCodes();
+    fetchData();
   }, []);
 
-  useEffect(() => {
-    if (coder?.avatar) {
-      setSelectedAvatar(coder.avatar);
-    }
-  }, [coder]);
 
   const saveAvatar = async () => {
     try {
-      const res = await axios.post(
-        "http://localhost:3000/get/update-avatar",
-        { avatar: selectedAvatar },
-        { withCredentials: true }
-      );
-      setCoder(res.data.coder);
-      console.log(res.data.coder)
-      setSelectedAvatar(res.data.coder.avatar);
-      console.log("coder ",coder)
+      const res = await updateAvatar(selectedAvatar);
+      setSelectedAvatar(res);
       setShowOptions(false);
     } catch (error) {
       console.log(error);

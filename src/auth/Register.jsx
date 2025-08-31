@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { CoderContext } from "../context/CoderProvider";
+import { register } from "../pages/AgentResponse/agentResponse";
 
 function Register() {
   const [name, setName] = useState("");
@@ -17,11 +18,7 @@ function Register() {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/auth/register",
-        { username, email, password, name},
-        { withCredentials: true }
-      );
+      const response = await register(username, email, password, name);
 
       console.log("Coder Registered:", response.data);
 

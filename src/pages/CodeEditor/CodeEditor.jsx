@@ -8,6 +8,7 @@ import {
   addCodeToDB,
 } from "../AgentResponse/agentResponse";
 import { DarkModeContext } from "../../context/DarkModeProvider";
+import { useNavigate } from "react-router-dom";
 
 const allLanguages = ["python", "cpp", "c", "java", "javascript"];
 
@@ -23,7 +24,7 @@ function CodeEditor() {
   const { question, setQuestion } = useContext(QuestionContext);
   const [saved, setSaved] = useState(true);
   const { darkMode } = useContext(DarkModeContext);
-
+  const navigate = useNavigate()
   useEffect(() => {
     function giveRandomQuestion() {
       if (question) {
@@ -185,6 +186,12 @@ function CodeEditor() {
 
       {codeGenerated && (
         <div className="flex justify-end p-4">
+          <button
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition-all duration-300 mr-4"
+            onClick={() => navigate(0)}
+          >
+            Try New Code
+          </button>
           {saved ? (
             <button
               className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition-all duration-300"

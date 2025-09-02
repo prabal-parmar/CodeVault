@@ -4,7 +4,11 @@
 html, body {
   margin: 0;
   padding: 0;
-  background: #111827;
+  @apply bg-gray-50 text-gray-900 transition-colors duration-500;
+}
+
+html.dark {
+  @apply bg-gray-900 text-gray-100;
 }
 
 body {

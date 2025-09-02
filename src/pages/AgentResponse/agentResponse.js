@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 
 export const register = async (username, email, password, name) => {
@@ -8,10 +9,11 @@ export const register = async (username, email, password, name) => {
       { username, email, password, name},
       { withCredentials: true }
     );
+    toast.success("Registration Successfull. Please Login to continue")
     return res
   } catch (error) {
     console.log(error.message);
-    // prompt
+    toast.error("Something went wrong!")
   }
 }
 
@@ -22,10 +24,11 @@ export const login = async (username, password) => {
       { username, password },
       { withCredentials: true }
     );
+    toast.success("Successfully Logged In")
     return res
   } catch (error) {
     console.log(error.message);
-    // prompt
+    toast.warn("Something went wrong!")
   }
 }
 
@@ -36,9 +39,11 @@ export const logoutCoder = async (setCoder) => {
     });
   } catch (error) {
     console.log(error);
+    toast.error("Problem in Signing Out!")
   } finally {
     localStorage.removeItem("token");
     setCoder(null);
+    toast.success("Signed Out Successfully ")
   }
 }
 
@@ -53,6 +58,7 @@ export const generateHint = async (problem, setHint) => {
     }
   } catch (error) {
     console.log(error);
+    toast.error("Something went wrong while Generating Hint!")
   }
 };
 
@@ -69,6 +75,7 @@ export const generateCode = async (problem, language, setOutput) => {
     }
   } catch (error) {
     console.log(error);
+    toast.error("Something went wrong while Generating Code!")
   }
 };
 
@@ -81,9 +88,11 @@ export const generateRandom = async (question, setProblem, setHintButton) => {
       setProblem(res.data.response);
       setHintButton(false);
       // console.log(res.data.response);
+      toast.success("Question Generated Successfully")
     }
   } catch (error) {
     console.log(error);
+    toast.error("Something went wrong while Generating Question!")
   }
 };
 
@@ -101,9 +110,11 @@ export const addCodeToDB = async (question, hint, output) => {
       },
       { withCredentials: true }
     );
+    toast.success("Coded Added to Vault");
     if(res.data) return res.data
   } catch (error) {
     console.log(error);
+    toast.error("Error in Adding code")
     throw error
   }
 };
@@ -130,6 +141,7 @@ export const fetchAllCodes = async () => {
     return codes.data.codes.length;
   } catch (error) {
     console.log(error.message)
+    toast.error("Error in fetching your codes!")
     return "?";
   }
 }
@@ -140,10 +152,11 @@ export const updateAvatar = async (avatar) => {
       { avatar: avatar },
       { withCredentials: true }
     );
+    toast.success("Avatar updated successfully")
     return res.data.coder.avatar
   } catch (error) {
     console.log(error.message)
-    // prompt
+    toast.error("Unable to update avatar!")
   }
   
 }

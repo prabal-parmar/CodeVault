@@ -15,10 +15,14 @@ import Login from "./auth/Login";
 import Register from "./auth/Register";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import AllCodes from "./pages/AllCodes/AllCodes";
-
-
+import { useContext } from "react";
+import { DarkModeContext } from "./context/DarkModeProvider";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
+
+  const {darkMode} = useContext(DarkModeContext)
   return (
     <div className="flex flex-col min-h-screen">
       <Router>
@@ -38,6 +42,18 @@ function App() {
         </div>
         <Footer />
       </Router>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme={darkMode ? "dark" : "light"}
+      />
     </div>
   );
 }

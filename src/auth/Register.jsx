@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { CoderContext } from "../context/CoderProvider";
 import { register } from "../pages/AgentResponse/agentResponse";
+import { toast } from "react-toastify";
 
 function Register() {
   const [name, setName] = useState("");

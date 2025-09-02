@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { CoderContext } from "../context/CoderProvider";
 import { login } from "../pages/AgentResponse/agentResponse";
+import { toast } from "react-toastify";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -27,7 +28,6 @@ function Login() {
 
       setUsername("");
       setPassword("");
-
       navigate("/", { replace: true });
     } catch (error) {
       console.log("Error in logging in");

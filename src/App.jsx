@@ -19,6 +19,8 @@ import { useContext } from "react";
 import { DarkModeContext } from "./context/DarkModeProvider";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Roles from "./pages/InterviewPrep/Pages/SelectRoles";
+import InterviewPage from "./pages/InterviewPrep/Pages/InterviewPage";
 
 function App() {
 
@@ -36,6 +38,8 @@ function App() {
               <Route path="/generate" element={<Generate />} />
               <Route path="/profile" element={<Profile />} />
               <Route path='/allcodes' element={<AllCodes/>} />
+              <Route path='/interview-prep' element={<Roles />} />
+              <Route path='/interview-prep/:role' element={<InterviewPage />} />
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

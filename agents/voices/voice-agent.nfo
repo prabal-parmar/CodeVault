@@ -1,0 +1,13 @@
+* Text to Speech from piper
+* Voice used - Piper alba-medium (English)
+
+To download voice -
+
+// for voice
+curl -L -o en_GB-alba-medium.onnx \
+  https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_GB/alba/medium/en_GB-alba-medium.onnx
+
+// for voice.json
+curl -L -o en_GB-alba-medium.onnx.json \
+  https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_GB/alba/medium/en_GB-alba-medium.onnx.json
+

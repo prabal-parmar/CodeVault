@@ -9,7 +9,7 @@ export default function Footer() {
         <div className="flex flex-col sm:flex-row items-center justify-between">
           <div className="flex items-center space-x-2">
             <img
-              src="logo.png"
+              src="/logo.png"
               alt="logo"
               className="h-25 w-auto mt-1 cursor-pointer"
               onClick={() => navigate("/", { replace: true })}
@@ -39,7 +39,7 @@ export default function Footer() {
               href="/allcodes"
               className="hover:text-black dark:hover:text-white transition"
             >
-              Your Codes
+              My Codes
             </a>
           </div>
         </div>

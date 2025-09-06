@@ -158,5 +158,4 @@ export const updateAvatar = async (avatar) => {
     console.log(error.message)
     toast.error("Unable to update avatar!")
   }
-  
 }

@@ -22,10 +22,13 @@ function AllCodes() {
     <div className="flex flex-col gap-6 p-4">
       {codes.length !== 0 ? (
         <div>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4 text-center">
+            Your Saved Codes
+          </h1>
           {codes.map((value, index) => (
             <div
               key={index}
-              className="relative bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 shadow-lg dark:shadow-xl transition-all duration-300"
+              className="relative bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 shadow-lg dark:shadow-xl transition-all duration-300 mb-4"
             >
               <p className="text-lg font-extrabold text-blue-700 dark:text-blue-400 mb-2">
                 {value.question.toUpperCase()}

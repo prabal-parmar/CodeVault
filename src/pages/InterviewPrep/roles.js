@@ -1,5 +1,11 @@
 export const interviewTopics = [
   {
+    name: "Personal Interview",
+    link: "personal-interview",
+    description:
+      "Focuses on communication skills, confidence, attitude, problem-solving approach, and overall personality assessment.",
+  },
+  {
     name: "Data Structures & Algorithms",
     link: "dsa",
     description:

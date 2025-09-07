@@ -8,6 +8,36 @@ const GeneratedCodeSchema = new mongoose.Schema(
         createdAt: { type: Date, default: Date.now }
     }
 )
+
+const GeneratedInterviewSchema = new mongoose.Schema(
+    {
+        questions: {
+            type: [String],
+            default: []
+        },
+        responses: {
+            type: [String],
+            default: []
+        },
+        feedback: {
+            type: String,
+        },
+        score: {
+            type: Number,
+            min: 0,
+            max: 10
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now
+        },
+        recommendations: {
+            type: String,
+            default: "Keep practising and improving yourself"
+        }
+    }
+)
+
 const CoderSchema = mongoose.Schema(
     {
         username: {type: String, unique: true, required: true},
@@ -16,7 +46,7 @@ const CoderSchema = mongoose.Schema(
         email: {type: String, unique: true, required: true},
         password: { type: String, required: true, select: false },
         generatedCodes: [GeneratedCodeSchema],
-        interviewFeedback: []
+        interviewFeedback: [GeneratedInterviewSchema]
     },
     {timestamps: true}
 )

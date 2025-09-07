@@ -7,9 +7,13 @@ from codeGenerator import codeGeneratorAgent
 from hintGenerator import hintAgent
 from randomCodeGenerator import randomCodeAgent
 from AIinterviewPrep import interviewAgent
+from InterviewFeedback import feedbackAgent
 from pydantic import BaseModel
 from uuid import uuid4
 import subprocess, io
+from typing import List
+import json
+import re
 
 origins = [
     "http://localhost:5173"
@@ -39,6 +43,10 @@ class InterviewPrepModel(BaseModel):
 
 class VoiceInterviewerModel(BaseModel):
     question: str
+
+class FeedbackInterviewModel(BaseModel):
+    questions: List[str]
+    answers: List[str]
 
 @app.post('/agent/generateCode')
 async def agent1(msg: CodeResponseModel):
@@ -84,3 +92,18 @@ def agent5(msg: VoiceInterviewerModel):
 
     subprocess.run(cmd, input=question.encode(), check=True)
     return StreamingResponse(io.BytesIO(audio_bytes), media_type="audio/wav")
+
+@app.post('/agent/interview-feedback')
+async def agent6(msg: FeedbackInterviewModel):
+    try:    
+        questions = msg.questions
+        answers = msg.answers
+        agent_response = feedbackAgent.invoke({"questions": questions, "answers": answers})
+        cleaned = re.sub(r"^```(json)?", "", agent_response.strip(), flags=re.IGNORECASE)
+        cleaned = re.sub(r"```$", "", cleaned.strip())
+        print("DEBUG raw_output:", agent_response)
+
+        response = json.loads(cleaned)
+        return {"feedback": response["feedback"], "score": int(response["score"]), "recommendations": response["recommendations"]}
+    except Exception as e:
+        print(e)

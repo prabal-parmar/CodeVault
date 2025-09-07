@@ -24,16 +24,10 @@ export default function Footer() {
               Home
             </a>
             <a
-              href="/generate"
+              href="/interview-prep/myInterviews"
               className="hover:text-black dark:hover:text-white transition"
             >
-              Generate
-            </a>
-            <a
-              href="#"
-              className="hover:text-black dark:hover:text-white transition"
-            >
-              Dashboard
+              My Interviews
             </a>
             <a
               href="/allcodes"

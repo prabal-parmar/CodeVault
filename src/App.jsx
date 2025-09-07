@@ -30,7 +30,7 @@ function App() {
     <div className="flex flex-col min-h-screen">
       <Router>
         <Header />
-        <div className="bg-gray-100 dark:bg-gradient-to-b dark:from-gray-900 dark:via-gray-900 dark:to-gray-900 min-h-screen p-6 transition-colors duration-400">
+        <div className="bg-gray-100 dark:bg-slate-900 min-h-screen p-6 transition-colors duration-400">
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />

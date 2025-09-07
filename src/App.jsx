@@ -1,6 +1,6 @@
 import "./App.css";
 import "./index.css";
-import Generate from "./pages/Generate";
+import Generate from "./pages/CodeEditor/Generate";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import {

@@ -14,12 +14,12 @@ import {
   fetchInterviewQuestion,
   aiSayQuestion,
   getFeedbackFromAI,
-} from "../IntervewReponses/InterviewerResponse";
-import { useParams } from "react-router-dom";
+} from "../InterviewReponses/InterviewerResponse";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   startListening,
   stopListening,
-} from "../IntervewReponses/IntervieweeResponse";
+} from "../InterviewReponses/IntervieweeResponse";
 import { toast } from "react-toastify";
 const avatarOptions = {
   coder0: coder0,
@@ -42,7 +42,8 @@ const InterviewPage = () => {
   const [answerNum, setAnswerNum] = useState(0);
   const [generatedAnswers, setGeneratedAnswers] = useState([]);
   const [interviewStarted, setInterviewStarted] = useState(false);
-
+  const navigate = useNavigate();
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -73,7 +74,7 @@ const InterviewPage = () => {
 
   const saveInterviewResponse = async (finalAnswers) => {
     let feedback = await getFeedbackFromAI(generatedQuestions, finalAnswers);
-    console.log(feedback);
+    // console.log(feedback);
     toast.success(
       "Feedback saved successfully! Check your Interview Feedback section."
     );
@@ -96,7 +97,8 @@ const InterviewPage = () => {
         await saveInterviewResponse(updatedAnswers);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      toast.error("Something went wrong!");
     }
   };
 
@@ -115,7 +117,7 @@ const InterviewPage = () => {
       .map((item) => item.replace(/\n/g, "").trim())
       .filter(Boolean);
     setGeneratedQuestions(questions);
-    console.log(questions);
+    // console.log(questions);
     setAiSpeaking(true);
     setQuestionNum(0);
     return speakQuestion(questions[0]);
@@ -147,12 +149,14 @@ const InterviewPage = () => {
           >
             Start Interview
           </button>
-        ) 
-        : 
-          <button className="px-4 py-2 rounded-lg bg-gray-400 text-white cursor-not-allowed opacity-70">
-            Started
+        ) : (
+          <button 
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 font-semibold text-white bg-red-600 rounded-lg shadow-lg shadow-red-500/30 hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 dark:focus:ring-red-800 transition-all duration-300 ease-in-out transform hover:scale-105 mt-4"
+            onClick={() => navigate(0)}
+          >
+            End Interview
           </button>
-        }
+        )}
       </div>
 
       <div className="flex w-full max-w-5xl px-6 mt-4 gap-4">

@@ -11,7 +11,7 @@ const GeneratedCodeSchema = new mongoose.Schema(
 
 const GeneratedInterviewSchema = new mongoose.Schema(
     {
-        questions: {
+        questionsr: {
             type: [String],
             default: []
         },

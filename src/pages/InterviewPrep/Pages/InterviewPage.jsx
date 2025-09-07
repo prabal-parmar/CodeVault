@@ -73,21 +73,23 @@ const InterviewPage = () => {
 
   const saveInterviewResponse = async (finalAnswers) => {
     let feedback = await getFeedbackFromAI(generatedQuestions, finalAnswers);
-    console.log(feedback)
-    toast.success("Feedback saved successfully! Check your Interview Feedback section.");
-  }
+    console.log(feedback);
+    toast.success(
+      "Feedback saved successfully! Check your Interview Feedback section."
+    );
+  };
 
   const listenAnswer = async () => {
     try {
       setHumanSpeaking(true);
       const response = await startListening(setGeneratedAnswers);
       // console.log("generated Answer from listening", generatedAnswers)
-      const updatedAnswers = [...generatedAnswers, response]
+      const updatedAnswers = [...generatedAnswers, response];
       setGeneratedAnswers(updatedAnswers);
       const tempAnswerNum = answerNum + 1;
       setAnswerNum(tempAnswerNum);
 
-      if (answerNum === 3) {
+      if (answerNum === 2) {
         setAiSpeaking(false);
         setHumanSpeaking(false);
         setInterviewStarted(false);
@@ -135,14 +137,22 @@ const InterviewPage = () => {
              bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 
              shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
           onChange={(e) => setUserPreference(e.target.value)}
+          disabled={interviewStarted}
         />
-        <button
-          className="px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 
+        {!interviewStarted ? (
+          <button
+            className="px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 
              text-white font-bold shadow-lg hover:scale-105 transition-transform"
-          onClick={handelStartinterview}
-        >
-          Start Interview
-        </button>
+            onClick={handelStartinterview}
+          >
+            Start Interview
+          </button>
+        ) 
+        : 
+          <button className="px-4 py-2 rounded-lg bg-gray-400 text-white cursor-not-allowed opacity-70">
+            Started
+          </button>
+        }
       </div>
 
       <div className="flex w-full max-w-5xl px-6 mt-4 gap-4">

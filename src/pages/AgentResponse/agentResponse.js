@@ -159,3 +159,16 @@ export const updateAvatar = async (avatar) => {
     toast.error("Unable to update avatar!")
   }
 }
+
+export const fetchNumOfInterviews = async () => {
+  try {
+    const res = await axios.get("http://localhost:3000/get/interview-feedback",
+      {withCredentials: true}
+    )
+    return res.data.interviews.length
+  } catch (error) {
+    console.log(error.message)
+    toast.error("Something went wrong while fetching your interviews data!")
+    return "?"
+  }
+}

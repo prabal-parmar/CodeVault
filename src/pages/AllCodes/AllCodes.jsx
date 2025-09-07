@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { CodeIcon } from "../Home/Icons";
 
 function AllCodes() {
   const [codes, setCodes] = useState([]);
@@ -54,12 +55,13 @@ function AllCodes() {
         </div>
       ) : (
         <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-900 px-4 transition-colors duration-500">
-          <h1 className="text-3xl md:text-4xl font-extrabold text-gray-800 dark:text-gray-100 text-center mb-4 transition-colors duration-500">
-            Generate and Save Your Code Instantly ✨
+          <h1 className="inline-flex items-center gap-3 text-3xl md:text-4xl font-extrabold text-gray-800 dark:text-gray-100 text-center mb-4 transition-colors duration-500">
+            Generate and Save Your Code Instantly
+            <CodeIcon className="w-8 h-8 text-blue-500" />
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 text-center md:text-lg transition-colors duration-500">
+          <p className="text-gray-600 dark:text-gray-400 text-center md:text-lg transition-colors duration-500 max-w-2xl">
             Pick a problem, get hints, generate code in any language, and save
-            it to your personal vault
+            it to your personal vault.
           </p>
         </div>
       )}

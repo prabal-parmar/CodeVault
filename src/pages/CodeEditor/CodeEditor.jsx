@@ -78,7 +78,7 @@ function CodeEditor() {
       <div className="flex flex-col lg:flex-row gap-6 h-[80vh]">
         <div
           className="lg:w-1/2 flex flex-col items-start justify-start 
-                    dark:bg-gray-800 bg-gray-300 p-6 rounded-xl shadow-xl h-full overflow-y-auto pb-20"
+                    dark:bg-slate-800 bg-gray-300 p-6 rounded-xl shadow-xl h-full overflow-y-auto pb-20"
         >
           {hintButton ? (
             <form className="w-full" onSubmit={handleHintForm}>

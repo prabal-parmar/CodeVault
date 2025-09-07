@@ -21,6 +21,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Roles from "./pages/InterviewPrep/Pages/SelectRoles";
 import InterviewPage from "./pages/InterviewPrep/Pages/InterviewPage";
+import ShowInterviews from "./pages/InterviewPrep/Pages/ShowInterviews";
 
 function App() {
 
@@ -39,8 +40,8 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path='/allcodes' element={<AllCodes/>} />
               <Route path='/interview-prep' element={<Roles />} />
+              <Route path='/interview-prep/myInterviews' element={<ShowInterviews />} />
               <Route path='/interview-prep/:role' element={<InterviewPage />} />
-              <Route path='/interview-prep/myInterviews' element={<InterviewPage />} />
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

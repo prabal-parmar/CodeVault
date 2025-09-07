@@ -43,7 +43,14 @@ const navigation = [
       { name: "My Codes", href: "/allcodes" },
     ],
   },
-  { name: "Interview Prep", href: "/interview-prep", current: false },
+  {
+    name: "Interview Workspace",
+    current: false,
+    children: [
+      { name: "Mock Interview", href: "/interview-prep" },
+      { name: "My Interviews", href: "/interview-prep/myInterviews" },
+    ],
+  },
 ];
 
 function classNames(...classes) {

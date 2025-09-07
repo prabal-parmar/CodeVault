@@ -13,12 +13,14 @@ import { fetchAvatar } from "../../AgentResponse/agentResponse";
 import {
   fetchInterviewQuestion,
   aiSayQuestion,
+  getFeedbackFromAI,
 } from "../IntervewReponses/InterviewerResponse";
 import { useParams } from "react-router-dom";
 import {
   startListening,
   stopListening,
 } from "../IntervewReponses/IntervieweeResponse";
+import { toast } from "react-toastify";
 const avatarOptions = {
   coder0: coder0,
   coder1: coder1,
@@ -40,6 +42,7 @@ const InterviewPage = () => {
   const [answerNum, setAnswerNum] = useState(0);
   const [generatedAnswers, setGeneratedAnswers] = useState([]);
   const [interviewStarted, setInterviewStarted] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -68,19 +71,27 @@ const InterviewPage = () => {
     }
   };
 
+  const saveInterviewResponse = async (finalAnswers) => {
+    let feedback = await getFeedbackFromAI(generatedQuestions, finalAnswers);
+    console.log(feedback)
+    toast.success("Feedback saved successfully! Check your Interview Feedback section.");
+  }
+
   const listenAnswer = async () => {
     try {
       setHumanSpeaking(true);
       const response = await startListening(setGeneratedAnswers);
       // console.log("generated Answer from listening", generatedAnswers)
-      setGeneratedAnswers((prev) => [...prev, response]);
-      setAnswerNum((prev) => prev + 1);
+      const updatedAnswers = [...generatedAnswers, response]
+      setGeneratedAnswers(updatedAnswers);
+      const tempAnswerNum = answerNum + 1;
+      setAnswerNum(tempAnswerNum);
 
-      if (answerNum === 2) {
+      if (answerNum === 3) {
         setAiSpeaking(false);
         setHumanSpeaking(false);
         setInterviewStarted(false);
-        return null;
+        await saveInterviewResponse(updatedAnswers);
       }
     } catch (error) {
       console.log(error);

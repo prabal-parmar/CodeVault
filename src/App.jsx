@@ -40,6 +40,7 @@ function App() {
               <Route path='/allcodes' element={<AllCodes/>} />
               <Route path='/interview-prep' element={<Roles />} />
               <Route path='/interview-prep/:role' element={<InterviewPage />} />
+              <Route path='/interview-prep/myInterviews' element={<InterviewPage />} />
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

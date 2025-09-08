@@ -101,7 +101,7 @@ async def agent6(msg: FeedbackInterviewModel):
         agent_response = feedbackAgent.invoke({"questions": questions, "answers": answers})
         cleaned = re.sub(r"^```(json)?", "", agent_response.strip(), flags=re.IGNORECASE)
         cleaned = re.sub(r"```$", "", cleaned.strip())
-        print("DEBUG raw_output:", agent_response)
+        # print("output:", agent_response)
 
         response = json.loads(cleaned)
         return {"feedback": response["feedback"], "score": int(response["score"]), "recommendations": response["recommendations"]}

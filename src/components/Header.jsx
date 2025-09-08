@@ -224,7 +224,15 @@ export default function Header() {
                       href="/allcodes"
                       className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-white/10"
                     >
-                      Your Codes
+                      My Codes
+                    </a>
+                  </MenuItem>
+                  <MenuItem>
+                    <a
+                      href="/interview-prep/myInterviews"
+                      className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-white/10"
+                    >
+                      My Interviews
                     </a>
                   </MenuItem>
                   <MenuItem>

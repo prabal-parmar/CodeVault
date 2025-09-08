@@ -23,6 +23,7 @@ const ShowInterviews = () => {
 
           <div className="grid gap-8 max-w-5xl mx-auto">
             {interviews.map((item, index) => {
+              console.log("INTERVIEW ITEM:", item);
               const dateOnly = new Date(item.createdAt)
                 .toISOString()
                 .split("T")[0];

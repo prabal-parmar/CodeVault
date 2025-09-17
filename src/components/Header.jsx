@@ -16,7 +16,7 @@ import {
 } from "@heroicons/react/24/outline";
 
 import { useContext, useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, href } from "react-router-dom";
 import { CoderContext } from "../context/CoderProvider";
 import {
   coder0,
@@ -40,6 +40,7 @@ const navigation = [
     current: false,
     children: [
       { name: "Generate", href: "/generate" },
+      {name: "Convert", href: "/convert"},
       { name: "Generated Codes", href: "/allcodes" },
     ],
   },

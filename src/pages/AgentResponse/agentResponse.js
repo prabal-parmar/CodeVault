@@ -198,3 +198,18 @@ export const predictLanguage = async (code) => {
     toast.error("Error while predicting language!")
   }
 }
+
+export const convertedCode = async (code, language) => {
+  try {
+    const res = await axios.post("http://localhost:8000/agent/converted-code",
+      { code, language },
+      { withCredentials: true }
+    )
+    toast.success("Code Converted Successfully!")
+    
+    return res.data.response
+
+  } catch (error) {
+    toast.error("Error while converting code!")
+  }
+}

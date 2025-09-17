@@ -9,6 +9,7 @@ from randomCodeGenerator import randomCodeAgent
 from AIinterviewPrep import interviewAgent
 from InterviewFeedback import feedbackAgent
 from languageGusser import langGusserAgent
+from convertCodeLanguage import codeLanguageConvertorAgent
 from pydantic import BaseModel
 from uuid import uuid4
 import subprocess, io
@@ -51,6 +52,10 @@ class FeedbackInterviewModel(BaseModel):
 
 class DetechLanguageModel(BaseModel):
     code: str
+
+class CodeConvertorModel(BaseModel):
+    code: str
+    language: str
 
 @app.post('/agent/generateCode')
 async def agent1(msg: CodeResponseModel):
@@ -121,3 +126,15 @@ async def agent7(msg: DetechLanguageModel):
         return {"predicted_language": language}
     except Exception as e:
         return {"predicted_language": "Unknown"}
+
+@app.post('/agent/converted-code')
+async def agent8(msg: CodeConvertorModel):
+    try:
+        code = msg.code
+        language = msg.language
+        convertedCode = codeLanguageConvertorAgent.invoke({"code": code, "language": language})
+
+        return {"response": convertedCode}
+
+    except Exception as e:
+        return {"error": e}

@@ -10,7 +10,17 @@ import {
 import { DarkModeContext } from "../../context/DarkModeProvider";
 import { useNavigate } from "react-router-dom";
 
-const allLanguages = ["python", "cpp", "c", "java", "javascript"];
+const allLanguages = [
+    "javascript",
+    "python",
+    "cpp",
+    "java",
+    "csharp",
+    "go",
+    "php",
+    "ruby",
+    "typescript",
+  ];
 
 function CodeEditor() {
   const [hintButton, setHintButton] = useState(true);

@@ -1,7 +1,11 @@
 import { useContext, useState } from "react";
 import Editor from "@monaco-editor/react";
 import { DarkModeContext } from "../../context/DarkModeProvider";
-import { convertedCode, predictLanguage } from "../AgentResponse/agentResponse";
+import {
+  convertedCode,
+  foundBugs,
+  predictLanguage,
+} from "../AgentResponse/agentResponse";
 
 export default function CodeConvertor() {
   const [inputCode, setInputCode] = useState("");
@@ -9,9 +13,11 @@ export default function CodeConvertor() {
     "// Converted code will appear here..."
   );
   const [language, setLanguage] = useState("cpp");
-  const [predLang, setPredLang] = useState("Unknown");
+  const [predLang, setPredLang] = useState("N/A");
   const [languagePredicted, setLanguagePredicted] = useState(false);
   const [codeConverted, setCodeConverted] = useState(false);
+  const [bugDetails, setBugDetails] = useState(null);
+  const [showBugDetails, setShowBugDetails] = useState(true)
   const { darkMode } = useContext(DarkModeContext);
   const allLanguages = [
     "javascript",
@@ -39,8 +45,11 @@ export default function CodeConvertor() {
   };
 
   const handleFindBugs = async () => {
-    
-  }
+    const bugs = await foundBugs(inputCode, language);
+    // to add a pop up for bugs
+    setBugDetails(bugs.response);
+    console.log(bugs.response);
+  };
 
   return (
     <div className="flex flex-col gap-8 p-4 bg-gray-50 dark:bg-slate-900">
@@ -86,20 +95,94 @@ export default function CodeConvertor() {
               className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-slate-700 to-slate-800 text-white font-semibold py-3 px-4 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-101 hover:shadow-purple-500/30 disabled:from-gray-500 disabled:to-gray-600 disabled:shadow-none disabled:cursor-not-allowed disabled:scale-100"
               onClick={handleDetectLanguage}
             >
-                  {languagePredicted
-                    ? `Detected: ${predLang}`
-                    : "Detect Language"}
+              {languagePredicted ? `Detected: ${predLang}` : "Detect Language"}
             </button>
             <button
               className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-rose-600 to-red-700 text-white font-semibold py-3 px-4 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-101 hover:shadow-red-500/30 disabled:from-gray-500 disabled:to-gray-600 disabled:shadow-none disabled:cursor-not-allowed disabled:scale-100"
               onClick={handleFindBugs}
               disabled={!languagePredicted}
             >
-                Find Bugs
+              Find Bugs
             </button>
           </div>
         </div>
       </div>
+
+      {bugDetails && showBugDetails && (
+        <div className="relative mt-6 p-6 bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl shadow-lg">
+          <button
+            onClick={() => setShowBugDetails(false)}
+            className="absolute top-3 right-3 text-gray-500 hover:text-red-500 dark:text-gray-400 dark:hover:text-red-400 transition-colors cursor-pointer"
+          >
+            ✕
+          </button>
+
+          <h2 className="text-xl font-bold text-purple-700 dark:text-purple-400 mb-4 text-center">
+            Bug Details
+          </h2>
+
+          {bugDetails.syntax_errors?.length > 0 && (
+            <div className="mb-4">
+              <h3 className="font-semibold text-red-600 dark:text-red-400">
+                Syntax Errors:
+              </h3>
+              <ul className="list-disc list-inside text-sm text-gray-700 dark:text-gray-200">
+                {bugDetails.syntax_errors.map((err, i) => (
+                  <li key={i}>{err}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {bugDetails.runtime_errors?.length > 0 && (
+            <div className="mb-4">
+              <h3 className="font-semibold text-orange-600 dark:text-orange-400">
+                Runtime Errors:
+              </h3>
+              <ul className="list-disc list-inside text-sm text-gray-700 dark:text-gray-200">
+                {bugDetails.runtime_errors.map((err, i) => (
+                  <li key={i}>{err}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {bugDetails.logical_errors?.length > 0 && (
+            <div className="mb-4">
+              <h3 className="font-semibold text-yellow-600 dark:text-yellow-400">
+                Logical Errors:
+              </h3>
+              <ul className="list-disc list-inside text-sm text-gray-700 dark:text-gray-200">
+                {bugDetails.logical_errors.map((err, i) => (
+                  <li key={i}>{err}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {bugDetails.best_practices?.length > 0 && (
+            <div className="mb-4">
+              <h3 className="font-semibold text-blue-600 dark:text-blue-400">
+                Best Practices:
+              </h3>
+              <ul className="list-disc list-inside text-sm text-gray-700 dark:text-gray-200">
+                {bugDetails.best_practices.map((bp, i) => (
+                  <li key={i}>{bp}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <div className="mt-4">
+            <h3 className="font-semibold text-green-600 dark:text-green-400">
+              Conclusion:
+            </h3>
+            <p className="text-sm text-gray-800 dark:text-gray-100">
+              {bugDetails.conclusion}
+            </p>
+          </div>
+        </div>
+      )}
 
       <div className="flex items-center justify-center my-4 relative">
         <div className="absolute w-2/3 h-16 bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 rounded-full blur-3xl opacity-20 dark:opacity-30"></div>

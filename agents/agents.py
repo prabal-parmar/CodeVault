@@ -10,6 +10,7 @@ from AIinterviewPrep import interviewAgent
 from InterviewFeedback import feedbackAgent
 from languageGusser import langGusserAgent
 from convertCodeLanguage import codeLanguageConvertorAgent
+from findBugsInCode import bugFinderAgent
 from pydantic import BaseModel
 from uuid import uuid4
 import subprocess, io
@@ -54,6 +55,9 @@ class DetechLanguageModel(BaseModel):
     code: str
 
 class CodeConvertorModel(BaseModel):
+    code: str
+    language: str
+class BugDetectionModel(BaseModel):
     code: str
     language: str
 
@@ -138,3 +142,21 @@ async def agent8(msg: CodeConvertorModel):
 
     except Exception as e:
         return {"error": e}
+    
+@app.post('/agent/detect-bug')
+async def agent9(msg: BugDetectionModel):
+    try:
+        code = msg.code
+        language = msg.language
+        
+        allBugs = bugFinderAgent.invoke({"code": code, "language": language})
+        cleaned = re.sub(r"^```(json)?", "", allBugs.strip(), flags=re.IGNORECASE)
+        cleaned = re.sub(r"```$", "", cleaned.strip())
+
+        response = json.loads(cleaned)
+        print(response)
+        return {"response": response}
+
+    except Exception as e:
+        return {"error": e}
+    

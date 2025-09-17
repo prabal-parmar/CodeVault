@@ -40,7 +40,7 @@ const navigation = [
     current: false,
     children: [
       { name: "Generate", href: "/generate" },
-      {name: "Convert", href: "/convert"},
+      {name: "Convert & Test", href: "/convert"},
       { name: "Generated Codes", href: "/allcodes" },
     ],
   },

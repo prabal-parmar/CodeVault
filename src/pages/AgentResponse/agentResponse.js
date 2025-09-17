@@ -213,3 +213,18 @@ export const convertedCode = async (code, language) => {
     toast.error("Error while converting code!")
   }
 }
+
+export const foundBugs = async (code, language) => {
+  try {
+    const res = await axios.post("http://localhost:8000/agent/detect-bug", 
+      { code, language },
+      { withCredentials: true }
+    )
+    console.log(res.data)
+    return res.data
+
+  } catch (error) {
+    toast.error("Error while cheacking for bugs!")
+    console.log("Error: ",error.message)
+  }
+}

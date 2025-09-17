@@ -22,6 +22,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Roles from "./pages/InterviewPrep/Pages/SelectRoles";
 import InterviewPage from "./pages/InterviewPrep/Pages/InterviewPage";
 import ShowInterviews from "./pages/InterviewPrep/Pages/ShowInterviews";
+import ConvertPage from "./pages/CodeConvertor/ConvertPage";
 
 function App() {
 
@@ -36,8 +37,9 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route element={<ProtectedRoute />}>
               <Route path="/" element={<Home />} />
-              <Route path="/generate" element={<Generate />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/generate" element={<Generate />} />
+              <Route path="/convert" element={<ConvertPage />} />
               <Route path='/allcodes' element={<AllCodes/>} />
               <Route path='/interview-prep' element={<Roles />} />
               <Route path='/interview-prep/myInterviews' element={<ShowInterviews />} />

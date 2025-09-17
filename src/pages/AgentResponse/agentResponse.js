@@ -172,3 +172,29 @@ export const fetchNumOfInterviews = async () => {
     return "?"
   }
 }
+
+export const predictLanguage = async (code) => {
+  try {
+    const res = await axios.post("http://localhost:8000/agent/language-detector", 
+      { code },
+      { withCredentials: true }
+    )
+    toast.success(`Language detected: ${res.data.predicted_language}`, {
+    position: "top-right",
+    duration: 3000,
+    style: {
+      background: "#10b981",
+      color: "#ffffff",
+      fontWeight: "bold",
+      padding: "16px",
+      borderRadius: "10px",
+      boxShadow: "0 4px 15px rgba(0,0,0,0.2)",
+    },
+    icon: "📝",
+  });
+
+    return res.data.predicted_language
+  } catch (error) {
+    toast.error("Error while predicting language!")
+  }
+}

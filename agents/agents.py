@@ -8,6 +8,7 @@ from hintGenerator import hintAgent
 from randomCodeGenerator import randomCodeAgent
 from AIinterviewPrep import interviewAgent
 from InterviewFeedback import feedbackAgent
+from languageGusser import langGusserAgent
 from pydantic import BaseModel
 from uuid import uuid4
 import subprocess, io
@@ -47,6 +48,9 @@ class VoiceInterviewerModel(BaseModel):
 class FeedbackInterviewModel(BaseModel):
     questions: List[str]
     answers: List[str]
+
+class DetechLanguageModel(BaseModel):
+    code: str
 
 @app.post('/agent/generateCode')
 async def agent1(msg: CodeResponseModel):
@@ -107,3 +111,13 @@ async def agent6(msg: FeedbackInterviewModel):
         return {"feedback": response["feedback"], "score": int(response["score"]), "recommendations": response["recommendations"]}
     except Exception as e:
         print(e)
+        return {"error": "Some error occured while generating feedback!"}
+
+@app.post('/agent/language-detector')
+async def agent7(msg: DetechLanguageModel):
+    try:
+        code = msg.code
+        language = langGusserAgent.invoke({"code": code})
+        return {"predicted_language": language}
+    except Exception as e:
+        return {"predicted_language": "Unknown"}

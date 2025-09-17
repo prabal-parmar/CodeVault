@@ -1,6 +1,9 @@
 from langchain.prompts import ChatPromptTemplate, HumanMessagePromptTemplate, SystemMessagePromptTemplate
 from langchain_groq.chat_models import ChatGroq
 from langchain_core.output_parsers import StrOutputParser
+from dotenv import load_dotenv
+
+load_dotenv()
 
 llm = ChatGroq(model="llama-3.3-70b-versatile", temperature=0)
 
